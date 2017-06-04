@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="ml.jetkov.neatpad.FileViewer"
+    tools:showIn="@layout/activity_file_viewer">
+
+    <fragment
+        android:id="@+id/text_editor_fragment"
+        android:name="ml.jetkov.neatpad.TextEditor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout="@layout/fragment_text_editor" />
+</android.support.constraint.ConstraintLayout>
