@@ -11,7 +11,11 @@
     <fragment
         android:id="@+id/text_editor_fragment"
         android:name="ml.jetkov.neatpad.TextEditor"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:layout="@layout/fragment_text_editor" />
 </android.support.constraint.ConstraintLayout>

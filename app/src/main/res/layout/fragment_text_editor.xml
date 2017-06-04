@@ -10,9 +10,14 @@
         android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@null"
         android:ems="10"
         android:fontFamily="monospace"
         android:gravity="top"
-        android:background="@null"
-        android:inputType="textMultiLine" />
+        android:inputType="textMultiLine"
+        android:textSize="14sp" />
 </FrameLayout>
