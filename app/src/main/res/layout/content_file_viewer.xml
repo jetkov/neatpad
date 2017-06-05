@@ -8,14 +8,10 @@
     tools:context="ml.jetkov.neatpad.FileViewer"
     tools:showIn="@layout/activity_file_viewer">
 
-    <fragment
-        android:id="@+id/text_editor_fragment"
-        android:name="ml.jetkov.neatpad.TextEditor"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/fragment_text_editor" />
+    <FrameLayout
+        android:id="@+id/frag_container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1" />
+
 </android.support.constraint.ConstraintLayout>
