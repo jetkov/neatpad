@@ -24,8 +24,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FileViewer"
-            android:label="@string/title_activity_file_viewer"
+            android:name=".FileInterface"
+            android:label="@string/title_activity_file_interface"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

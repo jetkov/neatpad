@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-public class FileViewer extends AppCompatActivity implements TextEditor.OnFragmentInteractionListener, HTMLViewer.OnFragmentInteractionListener {
+public class FileInterface extends AppCompatActivity implements TextEditor.OnFragmentInteractionListener, HTMLViewer.OnFragmentInteractionListener {
 
     private FragmentManager fragManager = getSupportFragmentManager();
 
@@ -19,7 +19,7 @@ public class FileViewer extends AppCompatActivity implements TextEditor.OnFragme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_file_viewer);
+        setContentView(R.layout.activity_file_interface);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -32,6 +32,7 @@ public class FileViewer extends AppCompatActivity implements TextEditor.OnFragme
                 switchViewMode();
             }
         });
+
     }
 
     protected void switchViewMode() {

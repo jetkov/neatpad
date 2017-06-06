@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="ml.jetkov.neatpad.FileViewer"
-    tools:showIn="@layout/activity_file_viewer">
+    tools:context="ml.jetkov.neatpad.FileInterface"
+    tools:showIn="@layout/activity_file_interface">
 
     <FrameLayout
         android:id="@+id/frag_container"
