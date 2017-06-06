@@ -9,7 +9,15 @@ import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 /**
  * Created by jetkov on 05/06/17.
@@ -40,7 +48,7 @@ public class FileManager {
         return false;
     }
 
-    public static File getExternalAppFile(Context context, String dirName) {
+    public static File getExternalAppDir(String dirName) {
         isExternalStorageReadable();
         File file = new File(Environment.getExternalStoragePublicDirectory("NeatPad"), dirName);
 
@@ -72,5 +80,40 @@ public class FileManager {
         }
     }
 
+    public static void writeStringToFile(String string, File file) {
+        try {
+            file.delete();
+            file.createNewFile();
+            FileOutputStream fOut = new FileOutputStream(file);
+            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
+            myOutWriter.append(string);
+
+            myOutWriter.close();
+
+            fOut.flush();
+            fOut.close();
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "File write failed: " + e.toString());
+        }
+    }
+
+    public static String readStringFromFile(File file) {
+        StringBuilder text = new StringBuilder();
+
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            String line;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                text.append(line);
+                text.append('\n');
+            }
+            bufferedReader.close();
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "File read failed: " + e.toString());
+        }
+
+        return text.toString();
+    }
 
 }
