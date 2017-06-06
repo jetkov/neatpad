@@ -40,7 +40,7 @@ public class FileManager {
         return false;
     }
 
-    public static File getExternalAppDir(Context context, String dirName) {
+    public static File getExternalAppFile(Context context, String dirName) {
         isExternalStorageReadable();
         File file = new File(Environment.getExternalStoragePublicDirectory("NeatPad"), dirName);
 
@@ -58,21 +58,19 @@ public class FileManager {
         if (Build.VERSION.SDK_INT >= 23) {
             if (activity.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
-                Log.v(LOG_TAG,"Permission is granted");
+                Log.v(LOG_TAG, "External write permission is granted");
                 return true;
             } else {
 
-                Log.v(LOG_TAG,"Permission is revoked");
+                Log.v(LOG_TAG, "External write permission is revoked");
                 ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 return false;
             }
-        }
-        else { //permission is automatically granted on sdk<23 upon installation
-            Log.v(LOG_TAG,"Permission is granted");
+        } else { //permission is automatically granted on sdk<23 upon installation
+            Log.v(LOG_TAG, "External write permission is granted");
             return true;
         }
     }
-
 
 
 }
