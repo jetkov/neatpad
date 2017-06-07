@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -19,15 +20,23 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
+import ml.jetkov.neatpad.R;
+
 /**
- * Created by jetkov on 05/06/17.
+ * A set of utility methods for the management of files and directories on the android system,
+ * with reference to the app.
+ * <p>
+ * Created by jetkov (Alex Petkovic) on 05/06/17.
  */
 
 public class FileManager {
 
     private static final String LOG_TAG = "File Manager";
+    public static final String appFolderName = "NeatPad";
 
-    /* Checks if external storage is available for read and write */
+    /**
+     * @return True if 'external' storage is available for read and write.
+     */
     private static boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state)) {
@@ -37,7 +46,9 @@ public class FileManager {
         return false;
     }
 
-    /* Checks if external storage is available to at least read */
+    /**
+     * @return True if 'external' storage is available to at least read.
+     */
     private static boolean isExternalStorageReadable() {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state) ||
@@ -48,9 +59,16 @@ public class FileManager {
         return false;
     }
 
+    /**
+     * Gets a subdirectory of the 'external' app folder. Usually this is actually on internal
+     * storage, but is entirely accessible by the user and other apps. Creates a 'NeatPad' folder
+     * and subdirectory with specified name.
+     *
+     * @param dirName The name of the subdirectory to create/return
+     */
     public static File getExternalAppDir(String dirName) {
         isExternalStorageReadable();
-        File file = new File(Environment.getExternalStoragePublicDirectory("NeatPad"), dirName);
+        File file = new File(Environment.getExternalStoragePublicDirectory(appFolderName), dirName);
 
         Log.d(LOG_TAG, file.getAbsolutePath());
 
@@ -62,7 +80,15 @@ public class FileManager {
         return file;
     }
 
-    public static boolean isStoragePermissionGranted(Activity activity) {
+    /**
+     * Checks if 'external' storage write permissions are granted. If they are not, requests
+     * permission from user. On SDK versions < 23, this permission is automatically granted
+     * upon installation.
+     *
+     * @param activity The activity to request permission from.
+     * @return Whether or not 'external' storage write permission was granted.
+     */
+    public static boolean isExtStorageWritePermGranted(Activity activity) {
         if (Build.VERSION.SDK_INT >= 23) {
             if (activity.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
@@ -74,16 +100,24 @@ public class FileManager {
                 ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 return false;
             }
-        } else { //permission is automatically granted on sdk<23 upon installation
+        } else { // permission is automatically granted on SDK < 23 upon installation
             Log.v(LOG_TAG, "External write permission is granted");
             return true;
         }
     }
 
-    public static void writeStringToFile(String string, File file) {
+    /**
+     * Writes a String to a File. If the file exists, it will be overwritten.
+     *
+     * @param string The string to be written to the file
+     * @param file   A file to write to
+     * @return True if the write is a success, otherwise false.
+     */
+    public static boolean writeStringToFile(String string, File file) {
         try {
-            file.delete();
-            file.createNewFile();
+            if (file.delete())
+                Log.i(LOG_TAG, "File" + file.getName() + "exists. Deleted to overwrite.");
+            if (file.createNewFile()) Log.i(LOG_TAG, "New file" + file.getName() + "created.");
             FileOutputStream fOut = new FileOutputStream(file);
             OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
             myOutWriter.append(string);
@@ -92,16 +126,24 @@ public class FileManager {
 
             fOut.flush();
             fOut.close();
+            return true;
         } catch (IOException e) {
             Log.e(LOG_TAG, "File write failed: " + e.toString());
+            return false;
         }
     }
 
-    public static String readStringFromFile(File file) {
+    /**
+     * Attempts to read a text file into a String.
+     *
+     * @param textFile The text file to read
+     * @return A String containing the contents of the read text file
+     */
+    public static String readStringFromTextFile(File textFile) {
         StringBuilder text = new StringBuilder();
 
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(textFile));
             String line;
 
             while ((line = bufferedReader.readLine()) != null) {

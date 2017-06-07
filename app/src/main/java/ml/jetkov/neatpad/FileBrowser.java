@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import static ml.jetkov.neatpad.utils.FileManager.isStoragePermissionGranted;
+import static ml.jetkov.neatpad.utils.FileManager.isExtStorageWritePermGranted;
 
 public class FileBrowser extends AppCompatActivity {
 
@@ -20,7 +20,7 @@ public class FileBrowser extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        isStoragePermissionGranted(this);
+        isExtStorageWritePermGranted(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
