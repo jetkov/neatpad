@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import ml.jetkov.neatpad.utils.FileManager;
