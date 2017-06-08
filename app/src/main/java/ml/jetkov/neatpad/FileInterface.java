@@ -7,16 +7,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.EditText;
 
 import java.io.File;
 
-import static ml.jetkov.neatpad.utils.FileManager.getExternalAppDir;
-import static ml.jetkov.neatpad.utils.FileManager.writeStringToFile;
-import static ml.jetkov.neatpad.utils.ParsingUtils.markdownToHTML;
+import ml.jetkov.neatpad.utils.FileManager;
+import ml.jetkov.neatpad.utils.ParsingUtils;
 
 public class FileInterface extends AppCompatActivity implements TextEditor.OnFragmentInteractionListener, HTMLViewer.OnFragmentInteractionListener {
 
@@ -47,15 +45,15 @@ public class FileInterface extends AppCompatActivity implements TextEditor.OnFra
         EditText textEditor = (EditText) findViewById(R.id.text_editor);
         WebView htmlViewer = (WebView) findViewById(R.id.html_viewer);
 
-        File textFile = new File(getExternalAppDir("Text Files"), "Test Note.txt");
-        File htmlFile = new File(getExternalAppDir("HTML Files"), "Test Note.html");
+        File textFile = new File(FileManager.getExternalAppDir("Text Files"), "Test Note.txt");
+        File htmlFile = new File(FileManager.getExternalAppDir("HTML Files"), "Test Note.html");
 
         FragmentTransaction fragTransaction = fragManager.beginTransaction();
         if (textEditor == null) {
             fragTransaction.replace(R.id.frag_container, textEditorFrag).commit();
         } else if (htmlViewer == null) {
-            writeStringToFile(textEditor.getText().toString(), textFile);
-            markdownToHTML(textFile, htmlFile);
+            FileManager.writeStringToFile(textEditor.getText().toString(), textFile);
+            ParsingUtils.markdownToHTML(textFile, htmlFile);
             fragTransaction.replace(R.id.frag_container, htmlViewerFrag).commit();
         }
 
