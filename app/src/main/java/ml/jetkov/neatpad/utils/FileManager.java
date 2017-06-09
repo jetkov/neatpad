@@ -145,7 +145,7 @@ public class FileManager {
             fOut.close();
             return true;
         } catch (IOException e) {
-            Log.e(LOG_TAG, "File write failed: " + e.toString());
+            Log.e(LOG_TAG, "FWriting String to file failed: " + e.toString());
             return false;
         }
     }
@@ -169,7 +169,7 @@ public class FileManager {
             }
             bufferedReader.close();
         } catch (IOException e) {
-            Log.e(LOG_TAG, "File read failed: " + e.toString());
+            Log.e(LOG_TAG, "Reading String from file failed: " + e.toString());
         }
 
         return text.toString();

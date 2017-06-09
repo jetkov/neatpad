@@ -18,14 +18,20 @@
 package ml.jetkov.neatpad.utils;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.widget.ArrayAdapter;
 
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Created by jetkov on 08/06/17.
  */
 public class FileListAdapter extends ArrayAdapter<File> {
+
+    private Context context;
+    private ArrayList<File> fileList;
+    private LayoutInflater layoutInflater;
 
     FileListAdapter(Context context, File[] files) {
         super(context, -1, files);
