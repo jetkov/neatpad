@@ -61,11 +61,9 @@ public class FileBrowser extends AppCompatActivity {
 //            }
 //        });
 
-        String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
-                "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
-                "Android", "iPhone", "WindowsMobile" };
+        String[] values = new String[]{"lorem", "ipsum", "dolor", "sit", "amet", "consectetur",
+                "adipiscing", "lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing",
+                "lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing"};
 
         final ArrayList<String> list = new ArrayList<String>();
         for (int i = 0; i < values.length; ++i) {
