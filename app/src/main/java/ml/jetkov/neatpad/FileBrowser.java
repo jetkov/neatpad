@@ -28,8 +28,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-
+import ml.jetkov.neatpad.utils.FileArrayAdapter;
 import ml.jetkov.neatpad.utils.FileManager;
 
 public class FileBrowser extends AppCompatActivity {
@@ -61,16 +60,7 @@ public class FileBrowser extends AppCompatActivity {
 //            }
 //        });
 
-        String[] values = new String[]{"lorem", "ipsum", "dolor", "sit", "amet", "consectetur",
-                "adipiscing", "lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing",
-                "lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing"};
-
-        final ArrayList<String> list = new ArrayList<String>();
-        for (int i = 0; i < values.length; ++i) {
-            list.add(values[i]);
-        }
-
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, values);
+        ArrayAdapter adapter = new FileArrayAdapter(this, FileManager.getExternalAppDir().listFiles());
         fileList.setAdapter(adapter);
     }
 

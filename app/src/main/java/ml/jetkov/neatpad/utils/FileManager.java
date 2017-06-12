@@ -77,6 +77,25 @@ public class FileManager {
     }
 
     /**
+     * Gets the 'external' app folder. Usually this is actually on internal
+     * storage, but is entirely accessible by the user and other apps. Creates a 'NeatPad' folder
+     * if it does not already exist.
+     */
+    public static File getExternalAppDir() {
+        isExternalStorageReadable();
+        File file = Environment.getExternalStoragePublicDirectory(appFolderName);
+
+        Log.d(LOG_TAG, file.getAbsolutePath());
+
+        isExternalStorageWritable();
+        if (!file.mkdirs()) {
+            Log.e(LOG_TAG, "Directory not created");
+        }
+
+        return file;
+    }
+
+    /**
      * Gets a subdirectory of the 'external' app folder. Usually this is actually on internal
      * storage, but is entirely accessible by the user and other apps. Creates a 'NeatPad' folder
      * and subdirectory with specified name.
@@ -85,7 +104,7 @@ public class FileManager {
      */
     public static File getExternalAppDir(String dirName) {
         isExternalStorageReadable();
-        File file = new File(Environment.getExternalStoragePublicDirectory(appFolderName), dirName);
+        File file = new File(getExternalAppDir(), dirName);
 
         Log.d(LOG_TAG, file.getAbsolutePath());
 
