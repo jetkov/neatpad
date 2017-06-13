@@ -24,6 +24,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.EditText;
@@ -40,6 +41,11 @@ public class FileInterface extends AppCompatActivity implements TextEditor.OnFra
     private TextEditor textEditorFrag = new TextEditor();
     private HTMLViewer htmlViewerFrag = new HTMLViewer();
 
+    private EditText textEditor;
+    private WebView htmlViewer;
+
+    private File textFile = new File(FileManager.getExternalAppDir("Text Files"), "Note.txt");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +53,12 @@ public class FileInterface extends AppCompatActivity implements TextEditor.OnFra
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        String filePath = getIntent().getExtras().getString("file_path");
+        textFile = new File(filePath);
+
         fragManager.beginTransaction().add(R.id.frag_container, textEditorFrag).commit();
+
+        loadTextFile(textFile);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -58,22 +69,32 @@ public class FileInterface extends AppCompatActivity implements TextEditor.OnFra
         });
     }
 
-    private void switchViewMode() {
-        EditText textEditor = (EditText) findViewById(R.id.text_editor);
-        WebView htmlViewer = (WebView) findViewById(R.id.html_viewer);
+    private void loadTextFile(File file) {
+        updateElements();
+        if (textEditor == null) switchViewMode();
+        Log.d("File Interface", FileManager.readStringFromTextFile(file));
+        //textEditor.setText(FileManager.readStringFromTextFile(file));
+    }
 
-        File textFile = new File(FileManager.getExternalAppDir("Text Files"), "Test Note.txt");
-        File htmlFile = new File(FileManager.getExternalAppDir("HTML Files"), "Test Note.html");
+    private void switchViewMode() {
+        updateElements();
 
         FragmentTransaction fragTransaction = fragManager.beginTransaction();
         if (textEditor == null) {
             fragTransaction.replace(R.id.frag_container, textEditorFrag).commit();
         } else if (htmlViewer == null) {
+            File htmlFile = new File(FileManager.getExternalAppDir("HTML Files"), textFile.getName().replace(".txt", "") + ".html");
+
             FileManager.writeStringToFile(textEditor.getText().toString(), textFile);
             ParsingUtils.markdownToHTML(textFile, htmlFile);
             fragTransaction.replace(R.id.frag_container, htmlViewerFrag).commit();
         }
+        updateElements();
+    }
 
+    private void updateElements() {
+        textEditor = (EditText) findViewById(R.id.text_editor);
+        htmlViewer = (WebView) findViewById(R.id.html_viewer);
     }
 
     @Override

@@ -51,6 +51,10 @@ public class FileArrayAdapter extends ArrayAdapter<File> {
         }
     }
 
+    public File[] getFiles() {
+        return files;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View rowView = convertView;

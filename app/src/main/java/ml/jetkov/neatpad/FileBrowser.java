@@ -22,16 +22,21 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
+
+import java.io.File;
 
 import ml.jetkov.neatpad.utils.FileArrayAdapter;
 import ml.jetkov.neatpad.utils.FileManager;
 
 public class FileBrowser extends AppCompatActivity {
+    private ListView fileList;
+    private FileArrayAdapter fileAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,25 +53,34 @@ public class FileBrowser extends AppCompatActivity {
             public void onClick(View view) {
 //                getExternalAppFile(view.getContext(), "test");
 //                Snackbar.make(view, "Test directory created!", Snackbar.LENGTH_LONG).show();
-                launchFileViewer();
             }
         });
 
-        ListView fileList = (ListView) findViewById(R.id.file_list);
-//        fileList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//            }
-//        });
+        fileList = (ListView) findViewById(R.id.file_list);
+        updateAdapter(FileManager.getExternalAppDir().listFiles());
 
-        ArrayAdapter adapter = new FileArrayAdapter(this, FileManager.getExternalAppDir().listFiles());
-        fileList.setAdapter(adapter);
+        fileList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                File selectedFile = fileAdapter.getFiles()[position];
+                if (selectedFile.isDirectory()) updateAdapter(selectedFile.listFiles());
+                else launchFileInterface(selectedFile.getAbsolutePath());
+            }
+        });
     }
 
-    private void launchFileViewer() {
-        startActivity(new Intent(this, FileInterface.class));
+    private boolean updateAdapter(File[] files) {
+        if (fileList != null) {
+            fileAdapter = new FileArrayAdapter(this, files);
+            fileList.setAdapter(fileAdapter);
+            return true;
+        } return false;
+    }
 
+    private void launchFileInterface(String filePath) {
+        Intent intent = new Intent(this, FileInterface.class);
+        intent.putExtra("file_path", filePath);
+        startActivity(intent);
     }
 
     @Override
