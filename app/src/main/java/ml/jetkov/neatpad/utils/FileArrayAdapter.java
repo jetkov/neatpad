@@ -68,7 +68,7 @@ public class FileArrayAdapter extends ArrayAdapter<File> {
             itemViewHolder = new ListItemViewHolder(rowView);
 
             rowView.setTag(rowView);
-        } else itemViewHolder = (ListItemViewHolder) rowView.getTag();
+        } else itemViewHolder = (ListItemViewHolder) convertView.getTag();
 
         if (files[position].isFile()) {
             itemViewHolder.fileIcon.setImageResource(R.mipmap.ic_launcher_round);

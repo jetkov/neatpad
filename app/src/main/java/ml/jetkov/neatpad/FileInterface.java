@@ -38,8 +38,8 @@ public class FileInterface extends AppCompatActivity implements TextEditor.OnFra
 
     private FragmentManager fragManager = getSupportFragmentManager();
 
-    private TextEditor textEditorFrag = new TextEditor();
-    private HTMLViewer htmlViewerFrag = new HTMLViewer();
+    private final TextEditor textEditorFrag = new TextEditor();
+    private final HTMLViewer htmlViewerFrag = new HTMLViewer();
 
     private EditText textEditor;
     private WebView htmlViewer;
@@ -53,12 +53,7 @@ public class FileInterface extends AppCompatActivity implements TextEditor.OnFra
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        String filePath = getIntent().getExtras().getString("file_path");
-        textFile = new File(filePath);
-
         fragManager.beginTransaction().add(R.id.frag_container, textEditorFrag).commit();
-
-        loadTextFile(textFile);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -69,16 +64,15 @@ public class FileInterface extends AppCompatActivity implements TextEditor.OnFra
         });
     }
 
-    private void loadTextFile(File file) {
-        updateElements();
-        if (textEditor == null) switchViewMode();
-        Log.d("File Interface", FileManager.readStringFromTextFile(file));
-        //textEditor.setText(FileManager.readStringFromTextFile(file));
+    @Override
+    protected void onStart() {
+        super.onStart();
+        String filePath = getIntent().getExtras().getString("file_path");
+        loadTextFile(new File(filePath));
     }
 
     private void switchViewMode() {
         updateElements();
-
         FragmentTransaction fragTransaction = fragManager.beginTransaction();
         if (textEditor == null) {
             fragTransaction.replace(R.id.frag_container, textEditorFrag).commit();
@@ -93,8 +87,15 @@ public class FileInterface extends AppCompatActivity implements TextEditor.OnFra
     }
 
     private void updateElements() {
-        textEditor = (EditText) findViewById(R.id.text_editor);
-        htmlViewer = (WebView) findViewById(R.id.html_viewer);
+        textEditor = (EditText) textEditorFrag.getView().findViewById(R.id.text_editor);
+        htmlViewer = (WebView) htmlViewerFrag.getView().findViewById(R.id.html_viewer);
+    }
+
+    private void loadTextFile(File file) {
+        updateElements();
+        if (textEditor == null) switchViewMode();
+        Log.e("FI", FileManager.readStringFromTextFile(file));
+        textEditor.setText(FileManager.readStringFromTextFile(file));
     }
 
     @Override
