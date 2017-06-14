@@ -78,6 +78,7 @@ public class FileBrowser extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        generateDefaultHierarchy();
         updateList(FileManager.getExternalAppDir().listFiles());
     }
 

@@ -21,6 +21,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
@@ -209,5 +210,28 @@ public class FileManager {
             in.close();
         }
     }
+
+//    private static boolean copyAsset(String fromAssetPath, File destination) {
+//        AssetManager assetManager = getAssets();
+//
+//        InputStream in = null;
+//        OutputStream out = null;
+//
+//        try {
+//            in = assetManager.open(fromAssetPath);
+//            new File(toPath).createNewFile();
+//            out = new FileOutputStream(destination);
+//            copyFile(in, out);
+//            in.close();
+//            in = null;
+//            out.flush();
+//            out.close();
+//            out = null;
+//            return true;
+//        } catch(Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
 
 }
