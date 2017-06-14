@@ -29,12 +29,14 @@ import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
 import ml.jetkov.neatpad.R;
@@ -82,13 +84,11 @@ public class FileManager {
      * if it does not already exist.
      */
     public static File getExternalAppDir() {
-        isExternalStorageReadable();
         File file = Environment.getExternalStoragePublicDirectory(appFolderName);
 
         Log.d(LOG_TAG, file.getAbsolutePath());
 
-        isExternalStorageWritable();
-        if (!file.mkdirs()) {
+        if (!isExternalStorageWritable() || !file.mkdirs()) {
             Log.e(LOG_TAG, "Directory not created");
         }
 
@@ -103,13 +103,11 @@ public class FileManager {
      * @param dirName The name of the subdirectory to create/return
      */
     public static File getExternalAppDir(String dirName) {
-        isExternalStorageReadable();
         File file = new File(getExternalAppDir(), dirName);
 
         Log.d(LOG_TAG, file.getAbsolutePath());
 
-        isExternalStorageWritable();
-        if (!file.mkdirs()) {
+        if (!isExternalStorageWritable() || !file.mkdirs()) {
             Log.e(LOG_TAG, "Directory not created");
         }
 
@@ -192,6 +190,24 @@ public class FileManager {
         }
 
         return text.toString();
+    }
+
+    public static void copyFile(File src, File target) throws IOException {
+        InputStream in = new FileInputStream(src);
+        try {
+            OutputStream out = new FileOutputStream(target);
+            try {
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+            } finally {
+                out.close();
+            }
+        } finally {
+            in.close();
+        }
     }
 
 }

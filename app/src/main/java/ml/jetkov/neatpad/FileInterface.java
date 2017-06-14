@@ -68,7 +68,7 @@ public class FileInterface extends AppCompatActivity implements TextEditor.OnFra
     protected void onStart() {
         super.onStart();
         String filePath = getIntent().getExtras().getString("file_path");
-        loadTextFile(new File(filePath));
+        //loadTextFile(new File(filePath));
     }
 
     private void switchViewMode() {
@@ -87,8 +87,8 @@ public class FileInterface extends AppCompatActivity implements TextEditor.OnFra
     }
 
     private void updateElements() {
-        textEditor = (EditText) textEditorFrag.getView().findViewById(R.id.text_editor);
-        htmlViewer = (WebView) htmlViewerFrag.getView().findViewById(R.id.html_viewer);
+        textEditor = (EditText) findViewById(R.id.text_editor);
+        htmlViewer = (WebView) findViewById(R.id.html_viewer);
     }
 
     private void loadTextFile(File file) {

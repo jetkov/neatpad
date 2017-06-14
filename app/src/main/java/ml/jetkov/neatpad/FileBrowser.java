@@ -19,6 +19,7 @@ package ml.jetkov.neatpad;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -30,6 +31,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.io.File;
+import java.io.IOException;
 
 import ml.jetkov.neatpad.utils.FileArrayAdapter;
 import ml.jetkov.neatpad.utils.FileManager;
@@ -38,14 +40,14 @@ public class FileBrowser extends AppCompatActivity {
     private ListView fileList;
     private FileArrayAdapter fileAdapter;
 
+    private static final String LOG_TAG = "File Browser";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_browser);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FileManager.isExtStorageWritePermGranted(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -57,24 +59,44 @@ public class FileBrowser extends AppCompatActivity {
         });
 
         fileList = (ListView) findViewById(R.id.file_list);
-        updateAdapter(FileManager.getExternalAppDir().listFiles());
+
+        if (FileManager.isExtStorageWritePermGranted(this)) {
+            generateDefaultHierarchy();
+            updateList(FileManager.getExternalAppDir().listFiles());
+        }
 
         fileList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 File selectedFile = fileAdapter.getFiles()[position];
-                if (selectedFile.isDirectory()) updateAdapter(selectedFile.listFiles());
+                if (selectedFile.isDirectory()) updateList(selectedFile.listFiles());
                 else launchFileInterface(selectedFile.getAbsolutePath());
             }
         });
     }
 
-    private boolean updateAdapter(File[] files) {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        updateList(FileManager.getExternalAppDir().listFiles());
+    }
+
+    private void generateDefaultHierarchy() {
+        File commonMarkSpec = new File("assets://samples/CommonmarkSpec.txt");
+        try {
+            FileManager.copyFile(commonMarkSpec, FileManager.getExternalAppDir("Text Files"));
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Could not generate default hierarchy: " + e.getMessage());
+        }
+    }
+
+    private boolean updateList(File[] files) {
         if (fileList != null) {
             fileAdapter = new FileArrayAdapter(this, files);
             fileList.setAdapter(fileAdapter);
             return true;
-        } return false;
+        }
+        return false;
     }
 
     private void launchFileInterface(String filePath) {
