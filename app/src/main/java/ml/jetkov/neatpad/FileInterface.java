@@ -36,10 +36,13 @@ import ml.jetkov.neatpad.utils.ParsingUtils;
 
 public class FileInterface extends AppCompatActivity implements TextEditor.OnFragmentInteractionListener, HTMLViewer.OnFragmentInteractionListener {
 
+    private String LOG_TAG = "File Interface";
+
     private FragmentManager fragManager = getSupportFragmentManager();
 
     private final TextEditor textEditorFrag = new TextEditor();
     private final HTMLViewer htmlViewerFrag = new HTMLViewer();
+
 
     private EditText textEditor;
     private WebView htmlViewer;
@@ -68,7 +71,8 @@ public class FileInterface extends AppCompatActivity implements TextEditor.OnFra
     protected void onStart() {
         super.onStart();
         String filePath = getIntent().getExtras().getString("file_path");
-        //loadTextFile(new File(filePath));
+        textFile = new File(filePath);
+        loadTextFile(textFile);
     }
 
     private void switchViewMode() {
@@ -76,25 +80,27 @@ public class FileInterface extends AppCompatActivity implements TextEditor.OnFra
         FragmentTransaction fragTransaction = fragManager.beginTransaction();
         if (textEditor == null) {
             fragTransaction.replace(R.id.frag_container, textEditorFrag).commit();
+            updateElements();
         } else if (htmlViewer == null) {
             File htmlFile = new File(FileManager.getExternalAppDir("HTML Files"), textFile.getName().replace(".txt", "") + ".html");
-
             FileManager.writeStringToFile(textEditor.getText().toString(), textFile);
             ParsingUtils.markdownToHTML(textFile, htmlFile);
             fragTransaction.replace(R.id.frag_container, htmlViewerFrag).commit();
+            updateElements();
+            htmlViewer.loadUrl("file://" + htmlFile.getAbsolutePath());
         }
-        updateElements();
     }
 
     private void updateElements() {
+        getSupportFragmentManager().executePendingTransactions();
         textEditor = (EditText) findViewById(R.id.text_editor);
         htmlViewer = (WebView) findViewById(R.id.html_viewer);
+        Log.e(LOG_TAG, "HTML Viewer: " + String.valueOf(htmlViewer != null));
     }
 
     private void loadTextFile(File file) {
         updateElements();
         if (textEditor == null) switchViewMode();
-        Log.e("FI", FileManager.readStringFromTextFile(file));
         textEditor.setText(FileManager.readStringFromTextFile(file));
     }
 
