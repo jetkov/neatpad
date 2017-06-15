@@ -95,7 +95,6 @@ public class FileInterface extends AppCompatActivity implements TextEditor.OnFra
         getSupportFragmentManager().executePendingTransactions();
         textEditor = (EditText) findViewById(R.id.text_editor);
         htmlViewer = (WebView) findViewById(R.id.html_viewer);
-        Log.e(LOG_TAG, "HTML Viewer: " + String.valueOf(htmlViewer != null));
     }
 
     private void loadTextFile(File file) {
