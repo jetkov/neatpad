@@ -87,10 +87,8 @@ public class FileManager {
     public static File getExternalAppDir() {
         File file = Environment.getExternalStoragePublicDirectory(appFolderName);
 
-        Log.d(LOG_TAG, file.getAbsolutePath());
-
         if (!isExternalStorageWritable() || !file.mkdirs()) {
-            Log.e(LOG_TAG, "Directory not created");
+            Log.i(LOG_TAG, "Directory " + file.getName() + "not created");
         }
 
         return file;
@@ -106,10 +104,8 @@ public class FileManager {
     public static File getExternalAppDir(String dirName) {
         File file = new File(getExternalAppDir(), dirName);
 
-        Log.d(LOG_TAG, file.getAbsolutePath());
-
         if (!isExternalStorageWritable() || !file.mkdirs()) {
-            Log.e(LOG_TAG, "Directory not created");
+            Log.i(LOG_TAG, "Directory " + file.getName() + "not created");
         }
 
         return file;
@@ -152,7 +148,7 @@ public class FileManager {
         try {
             if (file.delete())
                 Log.i(LOG_TAG, "File" + file.getName() + "exists. Deleted to overwrite.");
-            if (file.createNewFile()) Log.i(LOG_TAG, "New file" + file.getName() + "created.");
+            if (file.createNewFile()) Log.i(LOG_TAG, "New file" + file.getName() + " created.");
             FileOutputStream fOut = new FileOutputStream(file);
             OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
             myOutWriter.append(string);
@@ -163,7 +159,7 @@ public class FileManager {
             fOut.close();
             return true;
         } catch (IOException e) {
-            Log.e(LOG_TAG, "FWriting String to file failed: " + e.toString());
+            Log.e(LOG_TAG, "Writing String to file failed: " + e.toString());
             return false;
         }
     }
@@ -187,7 +183,8 @@ public class FileManager {
             }
             bufferedReader.close();
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Reading String from file failed: " + e.toString());
+            Log.e(LOG_TAG, "Reading String from file failed: " + e.getMessage());
+            e.printStackTrace();
         }
 
         return text.toString();
@@ -195,43 +192,40 @@ public class FileManager {
 
     public static void copyFile(File src, File target) throws IOException {
         InputStream in = new FileInputStream(src);
-        try {
             OutputStream out = new FileOutputStream(target);
-            try {
-                byte[] buf = new byte[1024];
-                int len;
-                while ((len = in.read(buf)) > 0) {
-                    out.write(buf, 0, len);
-                }
-            } finally {
-                out.close();
-            }
-        } finally {
-            in.close();
+
+        copyFile(in, out);
+    }
+
+    public static void copyFile(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while((read = in.read(buffer)) != -1){
+            out.write(buffer, 0, read);
         }
     }
 
-//    private static boolean copyAsset(String fromAssetPath, File destination) {
-//        AssetManager assetManager = getAssets();
-//
-//        InputStream in = null;
-//        OutputStream out = null;
-//
-//        try {
-//            in = assetManager.open(fromAssetPath);
-//            new File(toPath).createNewFile();
-//            out = new FileOutputStream(destination);
-//            copyFile(in, out);
-//            in.close();
-//            in = null;
-//            out.flush();
-//            out.close();
-//            out = null;
-//            return true;
-//        } catch(Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
+    public static boolean copyAsset(AssetManager assetManager, String fromAssetPath, File destination) {
+        InputStream in;
+        OutputStream out;
+
+        try {
+            in = assetManager.open(fromAssetPath);
+            destination.delete();
+            destination.createNewFile();
+            out = new FileOutputStream(destination);
+
+            copyFile(in, out);
+
+            in.close();
+            out.flush();
+            out.close();
+            return true;
+        } catch(Exception e) {
+            Log.e(LOG_TAG, "Could not copy asset: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }
