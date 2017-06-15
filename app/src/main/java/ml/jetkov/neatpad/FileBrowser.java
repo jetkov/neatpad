@@ -83,12 +83,8 @@ public class FileBrowser extends AppCompatActivity {
     }
 
     private void generateDefaultHierarchy() {
-        File commonMarkSpec = new File("assets://samples/CommonmarkSpec.txt");
-        try {
-            FileManager.copyFile(commonMarkSpec, FileManager.getExternalAppDir("Text Files"));
-        } catch (IOException e) {
-            Log.e(LOG_TAG, "Could not generate default hierarchy: " + e.getMessage());
-        }
+        File dest = new File(FileManager.getExternalAppDir("Text Files"), "CommonmarkSpec.txt");
+        FileManager.copyAsset(getAssets(), "samples/CommonmarkSpec.txt", dest);
     }
 
     private boolean updateList(File[] files) {
