@@ -42,7 +42,7 @@ import ml.jetkov.neatpad.utils.FileManager;
 
 public class FileBrowser extends AppCompatActivity {
     private static final String LOG_TAG = "File Browser";
-    private File currentDirPath = FileManager.getExternalAppDir();
+    private File currentDirectory = FileManager.getExternalAppDir();
 
     private ListView fileList;
     private FileArrayAdapter fileAdapter;
@@ -58,25 +58,27 @@ public class FileBrowser extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                newNewFileDialog(currentDirPath);
+                newNewFileDialog(currentDirectory);
             }
         });
 
         fileList = (ListView) findViewById(R.id.file_list);
 
-        currentDirPath = FileManager.getExternalAppDir();
+        currentDirectory = FileManager.getExternalAppDir();
 
         if (FileManager.isExtStorageWritePermGranted(this)) {
             generateDefaultHierarchy();
-            updateList(currentDirPath.listFiles());
+            updateList(currentDirectory.listFiles());
         }
 
         fileList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                currentDirPath = fileAdapter.getFiles()[position];
-                if (currentDirPath.isDirectory()) updateList(currentDirPath.listFiles());
-                else launchFileInterface(currentDirPath.getAbsolutePath());
+                File selectedFile = fileAdapter.getFiles()[position];
+                if (selectedFile.isDirectory()) {
+                    currentDirectory = selectedFile;
+                    updateList(currentDirectory.listFiles());
+                } else launchFileInterface(selectedFile.getAbsolutePath());
             }
         });
     }
@@ -86,6 +88,17 @@ public class FileBrowser extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         generateDefaultHierarchy();
         updateList(FileManager.getExternalAppDir().listFiles());
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!currentDirectory.equals(FileManager.getExternalAppDir())) {
+            File relativeParent = currentDirectory.getParentFile();
+            if (updateList(relativeParent.listFiles())) currentDirectory = relativeParent;
+            Log.e(LOG_TAG, currentDirectory.getAbsolutePath());
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private void generateDefaultHierarchy() {
@@ -124,12 +137,13 @@ public class FileBrowser extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+                updateList(currentDirectory.listFiles());
             }
         });
 
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int button) {
-                // canceled
+                // cancelled
             }
         });
 
