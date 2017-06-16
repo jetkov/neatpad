@@ -30,6 +30,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -41,6 +42,7 @@ import ml.jetkov.neatpad.utils.FileManager;
 
 public class FileBrowser extends AppCompatActivity {
     private static final String LOG_TAG = "File Browser";
+    private File currentDirPath = FileManager.getExternalAppDir();
 
     private ListView fileList;
     private FileArrayAdapter fileAdapter;
@@ -56,24 +58,25 @@ public class FileBrowser extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                getExternalAppFile(view.getContext(), "test");
-//                Snackbar.make(view, "Test directory created!", Snackbar.LENGTH_LONG).show();
+                newNewFileDialog(currentDirPath);
             }
         });
 
         fileList = (ListView) findViewById(R.id.file_list);
 
+        currentDirPath = FileManager.getExternalAppDir();
+
         if (FileManager.isExtStorageWritePermGranted(this)) {
             generateDefaultHierarchy();
-            updateList(FileManager.getExternalAppDir().listFiles());
+            updateList(currentDirPath.listFiles());
         }
 
         fileList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                File selectedFile = fileAdapter.getFiles()[position];
-                if (selectedFile.isDirectory()) updateList(selectedFile.listFiles());
-                else launchFileInterface(selectedFile.getAbsolutePath());
+                currentDirPath = fileAdapter.getFiles()[position];
+                if (currentDirPath.isDirectory()) updateList(currentDirPath.listFiles());
+                else launchFileInterface(currentDirPath.getAbsolutePath());
             }
         });
     }
@@ -104,27 +107,29 @@ public class FileBrowser extends AppCompatActivity {
         alert.setTitle("New File");
         alert.setMessage("Enter the name of the new file: ");
 
-        final TextView input = new TextView(this);
+        final EditText input = new EditText(this);
         alert.setView(input);
 
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int button) {
-                File newFile = new File(parentDirectory, input.getText().toString());
+                if (input.getText().toString() != "") {
+                    File newFile = new File(parentDirectory, input.getText().toString());
 
-                try {
-                    if (!newFile.createNewFile()) {
-                        newOverwriteFileDialog(newFile);
+                    try {
+                        if (!newFile.createNewFile()) {
+                            newOverwriteFileDialog(newFile);
+                        }
+                    } catch (IOException e) {
+                        Log.e(LOG_TAG, "Could not create new file: " + e.getMessage());
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    Log.e(LOG_TAG, "Could not create new file: " + e.getMessage());
-                    e.printStackTrace();
                 }
             }
         });
 
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int button) {
-                // Canceled.
+                // canceled
             }
         });
 
