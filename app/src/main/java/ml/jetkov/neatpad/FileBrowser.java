@@ -99,28 +99,66 @@ public class FileBrowser extends AppCompatActivity {
         return false;
     }
 
-    private void newFileDialog() {
+    private void newNewFileDialog(final File parentDirectory) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Title");
-        alert.setMessage("Message");
+        alert.setTitle("New File");
+        alert.setMessage("Enter the name of the new file: ");
 
         final TextView input = new TextView(this);
         alert.setView(input);
 
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                input.setText("hi");
-                // Do something with value!
+            public void onClick(DialogInterface dialog, int button) {
+                File newFile = new File(parentDirectory, input.getText().toString());
+
+                try {
+                    if (!newFile.createNewFile()) {
+                        newOverwriteFileDialog(newFile);
+                    }
+                } catch (IOException e) {
+                    Log.e(LOG_TAG, "Could not create new file: " + e.getMessage());
+                    e.printStackTrace();
+                }
             }
         });
 
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
+            public void onClick(DialogInterface dialog, int button) {
                 // Canceled.
             }
         });
+
         alert.show();
     }
+
+    private void newOverwriteFileDialog(final File fileToOverwrite) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setMessage("Overwrite file '" + fileToOverwrite.getName() + "' ?");
+
+        final TextView input = new TextView(this);
+        alert.setView(input);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int button) {
+                fileToOverwrite.delete();
+                try {
+                    fileToOverwrite.createNewFile();
+                } catch (IOException e) {
+                    Log.e(LOG_TAG, "Could not create new file: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int button) {
+                // Canceled.
+            }
+        });
+
+        alert.show();
+    }
+
 
     private void launchFileInterface(String filePath) {
         Intent intent = new Intent(this, FileInterface.class);
