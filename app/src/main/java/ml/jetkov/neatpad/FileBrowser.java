@@ -17,10 +17,12 @@
 
 package ml.jetkov.neatpad;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -29,6 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,10 +40,10 @@ import ml.jetkov.neatpad.utils.FileArrayAdapter;
 import ml.jetkov.neatpad.utils.FileManager;
 
 public class FileBrowser extends AppCompatActivity {
+    private static final String LOG_TAG = "File Browser";
+
     private ListView fileList;
     private FileArrayAdapter fileAdapter;
-
-    private static final String LOG_TAG = "File Browser";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +97,29 @@ public class FileBrowser extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    private void newFileDialog() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Title");
+        alert.setMessage("Message");
+
+        final TextView input = new TextView(this);
+        alert.setView(input);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                input.setText("hi");
+                // Do something with value!
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+        alert.show();
     }
 
     private void launchFileInterface(String filePath) {
