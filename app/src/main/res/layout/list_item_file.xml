@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
     Copyright (C) 2017  Alex Petkovic
 
     This program is free software: you can redistribute it and/or modify
@@ -17,9 +16,11 @@
 -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
-    android:padding="6dip" >
+    android:descendantFocusability="blocksDescendants"
+    android:padding="6dip">
 
     <ImageView
         android:id="@+id/file_icon"
@@ -32,7 +33,7 @@
 
     <TextView
         android:id="@+id/file_name"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/file_mod_date"
         android:layout_alignParentEnd="true"
@@ -54,5 +55,16 @@
         android:maxLines="1"
         android:text="File Modification Date"
         android:textSize="12sp" />
+
+    <ImageButton
+        android:id="@+id/file_info_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="6dip"
+        android:background="@android:color/transparent"
+        app:srcCompat="@android:drawable/ic_menu_info_details" />
 
 </RelativeLayout>
