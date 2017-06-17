@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
     Copyright (C) 2017  Alex Petkovic
 
     This program is free software: you can redistribute it and/or modify
@@ -27,9 +26,5 @@
     <WebView
         android:id="@+id/html_viewer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp" />
+        android:layout_height="match_parent" />
 </FrameLayout>
