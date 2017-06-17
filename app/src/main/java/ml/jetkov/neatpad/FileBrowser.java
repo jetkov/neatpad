@@ -42,7 +42,7 @@ import ml.jetkov.neatpad.utils.FileManager;
 
 public class FileBrowser extends AppCompatActivity {
     private static final String LOG_TAG = "File Browser";
-    private File currentDirectory = FileManager.getExternalAppDir();
+    private File currentDirectory = FileManager.getExternalAppDir("Text Files");
 
     private ListView fileList;
     private FileArrayAdapter fileAdapter;
@@ -63,8 +63,6 @@ public class FileBrowser extends AppCompatActivity {
         });
 
         fileList = (ListView) findViewById(R.id.file_list);
-
-        currentDirectory = FileManager.getExternalAppDir();
 
         if (FileManager.isExtStorageWritePermGranted(this)) {
             generateDefaultHierarchy();
