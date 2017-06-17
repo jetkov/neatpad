@@ -23,8 +23,15 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <WebView
-        android:id="@+id/html_viewer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <!--<ScrollView-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:scrollbars="vertical">-->
+
+        <WebView
+            android:id="@+id/html_viewer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"/>
+    <!--</ScrollView>-->
 </FrameLayout>
