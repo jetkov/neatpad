@@ -23,18 +23,25 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <EditText
-        android:id="@+id/text_editor"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@null"
-        android:ems="10"
-        android:fontFamily="monospace"
-        android:gravity="top"
-        android:inputType="textMultiLine"
-        android:textSize="14sp" />
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="vertical">
+
+        <EditText
+            android:id="@+id/text_editor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@null"
+            android:ems="10"
+            android:fontFamily="monospace"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:scrollbars="none"
+            android:textSize="14sp" />
+    </ScrollView>
 </FrameLayout>
