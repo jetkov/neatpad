@@ -24,7 +24,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.EditText;
@@ -36,14 +35,10 @@ import ml.jetkov.neatpad.utils.ParsingUtils;
 
 public class FileInterface extends AppCompatActivity implements TextEditor.OnFragmentInteractionListener, HTMLViewer.OnFragmentInteractionListener {
 
-    private String LOG_TAG = "File Interface";
-
-    private FragmentManager fragManager = getSupportFragmentManager();
-
     private final TextEditor textEditorFrag = new TextEditor();
     private final HTMLViewer htmlViewerFrag = new HTMLViewer();
-
-
+    private String LOG_TAG = "File Interface";
+    private FragmentManager fragManager = getSupportFragmentManager();
     private EditText textEditor;
     private WebView htmlViewer;
 

@@ -19,28 +19,22 @@ package ml.jetkov.neatpad.utils;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-
-import ml.jetkov.neatpad.R;
 
 /**
  * A set of utility methods for the management of files and directories on the android system,
@@ -51,8 +45,8 @@ import ml.jetkov.neatpad.R;
 
 public class FileManager {
 
-    private static final String LOG_TAG = "File Manager";
     public static final String appFolderName = "NeatPad";
+    private static final String LOG_TAG = "File Manager";
 
     /**
      * @return True if 'external' storage is available for read and write.
@@ -192,7 +186,7 @@ public class FileManager {
 
     public static void copyFile(File src, File target) throws IOException {
         InputStream in = new FileInputStream(src);
-            OutputStream out = new FileOutputStream(target);
+        OutputStream out = new FileOutputStream(target);
 
         copyFile(in, out);
     }
@@ -200,7 +194,7 @@ public class FileManager {
     public static void copyFile(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
         int read;
-        while((read = in.read(buffer)) != -1){
+        while ((read = in.read(buffer)) != -1) {
             out.write(buffer, 0, read);
         }
     }
@@ -221,7 +215,7 @@ public class FileManager {
             out.flush();
             out.close();
             return true;
-        } catch(Exception e) {
+        } catch (Exception e) {
             Log.e(LOG_TAG, "Could not copy asset: " + e.getMessage());
             e.printStackTrace();
             return false;
