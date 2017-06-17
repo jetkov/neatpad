@@ -24,14 +24,14 @@
     <!-- TODO: Update blank fragment layout -->
 
     <!--<ScrollView-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="fill_parent"-->
-        <!--android:scrollbars="vertical">-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="fill_parent"-->
+    <!--android:scrollbars="vertical">-->
 
-        <WebView
-            android:id="@+id/html_viewer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical"/>
+    <WebView
+        android:id="@+id/html_viewer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical" />
     <!--</ScrollView>-->
 </FrameLayout>

@@ -36,6 +36,7 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 import ml.jetkov.neatpad.utils.FileArrayAdapter;
 import ml.jetkov.neatpad.utils.FileManager;
@@ -123,7 +124,7 @@ public class FileBrowser extends AppCompatActivity {
 
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int button) {
-                if (input.getText().toString() != "") {
+                if (!Objects.equals(input.getText().toString(), "")) {
                     File newFile = new File(parentDirectory, input.getText().toString());
 
                     try {

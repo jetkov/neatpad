@@ -37,8 +37,7 @@ public class FileInterface extends AppCompatActivity implements TextEditor.OnFra
 
     private final TextEditor textEditorFrag = new TextEditor();
     private final HTMLViewer htmlViewerFrag = new HTMLViewer();
-    private String LOG_TAG = "File Interface";
-    private FragmentManager fragManager = getSupportFragmentManager();
+    private final FragmentManager fragManager = getSupportFragmentManager();
     private EditText textEditor;
     private WebView htmlViewer;
 
@@ -66,7 +65,9 @@ public class FileInterface extends AppCompatActivity implements TextEditor.OnFra
     protected void onStart() {
         super.onStart();
         String filePath = getIntent().getExtras().getString("file_path");
-        textFile = new File(filePath);
+        if (filePath != null) {
+            textFile = new File(filePath);
+        }
         loadTextFile(textFile);
     }
 

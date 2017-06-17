@@ -18,6 +18,7 @@
 package ml.jetkov.neatpad.utils;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,8 +44,9 @@ public class FileArrayAdapter extends ArrayAdapter<File> {
         return files;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View rowView = convertView;
         ListItemViewHolder itemViewHolder;
 
@@ -71,9 +73,9 @@ public class FileArrayAdapter extends ArrayAdapter<File> {
     }
 
     private class ListItemViewHolder {
-        ImageView fileIcon;
-        TextView fileName;
-        TextView fileModDate;
+        final ImageView fileIcon;
+        final TextView fileName;
+        final TextView fileModDate;
 
         public ListItemViewHolder(View view) {
             fileIcon = (ImageView) view.findViewById(R.id.file_icon);

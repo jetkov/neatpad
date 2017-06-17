@@ -45,10 +45,6 @@ public class HTMLViewer extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private WebView webView;
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -77,8 +73,8 @@ public class HTMLViewer extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -90,7 +86,7 @@ public class HTMLViewer extends Fragment {
 
         File commonmarkSpec = new File(FileManager.getExternalAppDir("Text Files"), "CommonmarkSpec.txt");
 
-        webView = (WebView) rootView.findViewById(R.id.html_viewer);
+        WebView webView = (WebView) rootView.findViewById(R.id.html_viewer);
         webView.loadUrl("file:///" + commonmarkSpec.getPath());
 
 //        webView.setOnTouchListener(new View.OnTouchListener() {
