@@ -67,6 +67,7 @@ public class FileArrayAdapter extends ArrayAdapter<File> {
         }
 
         itemViewHolder.fileName.setText(files[position].getName());
+
         String items = String.valueOf(files[position].listFiles() != null ? files[position].listFiles().length + " files" : "File");
         itemViewHolder.fileInfo.setText(items);
 
