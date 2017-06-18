@@ -67,7 +67,8 @@ public class FileArrayAdapter extends ArrayAdapter<File> {
         }
 
         itemViewHolder.fileName.setText(files[position].getName());
-        itemViewHolder.fileModDate.setText(String.valueOf(files[position].lastModified()));
+        String items = String.valueOf(files[position].listFiles() != null ? files[position].listFiles().length + " files" : "File");
+        itemViewHolder.fileInfo.setText(items);
 
         return rowView;
     }
@@ -75,12 +76,12 @@ public class FileArrayAdapter extends ArrayAdapter<File> {
     private class ListItemViewHolder {
         final ImageView fileIcon;
         final TextView fileName;
-        final TextView fileModDate;
+        final TextView fileInfo;
 
         public ListItemViewHolder(View view) {
             fileIcon = (ImageView) view.findViewById(R.id.file_icon);
             fileName = (TextView) view.findViewById(R.id.file_name);
-            fileModDate = (TextView) view.findViewById(R.id.file_mod_date);
+            fileInfo = (TextView) view.findViewById(R.id.file_info);
         }
     }
 }
