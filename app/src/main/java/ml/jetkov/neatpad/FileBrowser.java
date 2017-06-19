@@ -80,6 +80,13 @@ public class FileBrowser extends AppCompatActivity {
                 } else launchFileInterface(selectedFile.getAbsolutePath());
             }
         });
+
+        fileList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                return false;
+            }
+        });
     }
 
     @Override
