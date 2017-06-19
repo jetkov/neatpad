@@ -25,7 +25,7 @@
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:scrollbars="vertical">
 
         <EditText
@@ -41,6 +41,7 @@
             android:fontFamily="monospace"
             android:gravity="top"
             android:inputType="textMultiLine"
+            android:paddingBottom="20dp"
             android:scrollbars="none"
             android:textSize="14sp" />
     </ScrollView>
