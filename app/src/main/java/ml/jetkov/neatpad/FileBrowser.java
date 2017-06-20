@@ -29,6 +29,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -122,17 +123,18 @@ public class FileBrowser extends AppCompatActivity {
     }
 
     private void newNewFileDialog(final File parentDirectory) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("New File");
-        alert.setMessage("Enter the name of the new file: ");
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        AlertDialog dialog;
+        dialogBuilder.setTitle("New File");
+        dialogBuilder.setMessage("Enter the name of the new file: ");
 
         final EditText input = new EditText(this);
         input.setMinLines(1);
         input.setMaxLines(1);
         input.setPadding(10, 10, 10, 10);
-        alert.setView(input);
+        dialogBuilder.setView(input);
 
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int button) {
                 if (!Objects.equals(input.getText().toString(), "")) {
                     File newFile = new File(parentDirectory, input.getText().toString());
@@ -150,13 +152,15 @@ public class FileBrowser extends AppCompatActivity {
             }
         });
 
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int button) {
                 // cancelled
             }
         });
 
-        alert.show();
+        dialog = dialogBuilder.create();
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        dialog.show();
     }
 
     private void newOverwriteFileDialog(final File fileToOverwrite) {

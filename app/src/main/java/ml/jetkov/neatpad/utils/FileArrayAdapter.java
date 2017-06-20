@@ -48,7 +48,7 @@ public class FileArrayAdapter extends ArrayAdapter<File> {
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View rowView = convertView;
-        ListItemViewHolder itemViewHolder;
+        ListItemViewHolder itemViewHolder = null;
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context
@@ -58,20 +58,27 @@ public class FileArrayAdapter extends ArrayAdapter<File> {
             itemViewHolder = new ListItemViewHolder(rowView);
 
             rowView.setTag(rowView);
-        } else itemViewHolder = (ListItemViewHolder) convertView.getTag();
-
-        if (files[position].isFile()) {
-            itemViewHolder.fileIcon.setImageResource(R.mipmap.ic_launcher_round);
-        } else {
-            itemViewHolder.fileIcon.setImageResource(R.mipmap.ic_launcher);
+        } else if (convertView.getTag() instanceof ListItemViewHolder) {
+            itemViewHolder = (ListItemViewHolder) convertView.getTag();
         }
 
-        itemViewHolder.fileName.setText(files[position].getName());
+        if (itemViewHolder != null) {
 
-        String items = String.valueOf(files[position].listFiles() != null ? files[position].listFiles().length + " files" : "File");
-        itemViewHolder.fileInfo.setText(items);
+            if (files[position].isFile()) {
+                itemViewHolder.fileIcon.setImageResource(R.mipmap.ic_launcher_round);
+            } else {
+                itemViewHolder.fileIcon.setImageResource(R.mipmap.ic_launcher);
+            }
 
-        return rowView;
+            itemViewHolder.fileName.setText(files[position].getName());
+
+            String items = String.valueOf(files[position].listFiles() != null ? files[position].listFiles().length + " files" : "File");
+            itemViewHolder.fileInfo.setText(items);
+
+            return rowView;
+        }
+
+        return convertView;
     }
 
     private class ListItemViewHolder {
