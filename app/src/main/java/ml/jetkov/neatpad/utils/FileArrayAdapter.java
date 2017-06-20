@@ -54,7 +54,7 @@ public class FileArrayAdapter extends ArrayAdapter<File> {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            rowView = inflater.inflate(R.layout.list_item_file, parent, false);
+            rowView = inflater.inflate(R.layout.file_browser_list_item, parent, false);
             itemViewHolder = new ListItemViewHolder(rowView);
 
             rowView.setTag(rowView);

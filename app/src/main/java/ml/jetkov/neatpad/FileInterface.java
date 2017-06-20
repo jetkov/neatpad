@@ -46,7 +46,7 @@ public class FileInterface extends AppCompatActivity implements TextEditor.OnFra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_file_interface);
+        setContentView(R.layout.file_interface_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

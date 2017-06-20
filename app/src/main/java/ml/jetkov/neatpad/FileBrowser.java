@@ -51,7 +51,7 @@ public class FileBrowser extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_file_browser);
+        setContentView(R.layout.file_browser_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -127,6 +127,9 @@ public class FileBrowser extends AppCompatActivity {
         alert.setMessage("Enter the name of the new file: ");
 
         final EditText input = new EditText(this);
+        input.setMinLines(1);
+        input.setMaxLines(1);
+        input.setPadding(10, 10, 10, 10);
         alert.setView(input);
 
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {

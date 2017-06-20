@@ -39,7 +39,7 @@
 
     <include
         android:id="@+id/include"
-        layout="@layout/content_file_browser" />
+        layout="@layout/file_browser_content" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
