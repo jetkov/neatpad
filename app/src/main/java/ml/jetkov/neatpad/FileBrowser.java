@@ -129,8 +129,7 @@ public class FileBrowser extends AppCompatActivity {
         dialogBuilder.setMessage("Enter the name of the new file: ");
 
         final EditText input = new EditText(this);
-        input.setMinLines(1);
-        input.setMaxLines(1);
+        input.setSingleLine(true);
         input.setPadding(10, 10, 10, 10);
         dialogBuilder.setView(input);
 

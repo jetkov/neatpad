@@ -184,13 +184,35 @@ public class FileManager {
         return text.toString();
     }
 
-    public static void copyFile(File src, File target) throws IOException {
-        InputStream in = new FileInputStream(src);
-        OutputStream out = new FileOutputStream(target);
-
-        copyFile(in, out);
+    /**
+     * Copies a file using the abstract file path File object.
+     *
+     * @param src    Source File
+     * @param target Target File
+     * @return True if the file has successfully been copied.
+     */
+    public static boolean copyFile(File src, File target) {
+        InputStream in;
+        OutputStream out;
+        try {
+            in = new FileInputStream(src);
+            out = new FileOutputStream(target);
+            copyFile(in, out);
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Failed to copy file " + src.getPath() + " to " + target.getPath());
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
+    /**
+     * Copies a file using the given input and output file streams.
+     *
+     * @param in  The source InputStream
+     * @param out The destination OutputStream
+     * @throws IOException On an IO error
+     */
     public static void copyFile(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
         int read;
@@ -199,6 +221,13 @@ public class FileManager {
         }
     }
 
+    /**
+     * Copies an asset from the app's internal 'assets' directory to a specified destination.
+     * @param assetManager The application's AssetManager.
+     * @param fromAssetPath The path of the asset to copy (ex. "samples/CommonmarkSpec.txt").
+     * @param destination The destination for the asset, specified by the File object.
+     * @return True if the asset was successfully copied.
+     */
     public static boolean copyAsset(AssetManager assetManager, String fromAssetPath, File destination) {
         InputStream in;
         OutputStream out;

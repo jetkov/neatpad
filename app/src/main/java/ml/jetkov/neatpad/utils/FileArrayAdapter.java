@@ -30,21 +30,40 @@ import java.io.File;
 
 import ml.jetkov.neatpad.R;
 
+/**
+ * Returns a list item View for each file in an array of files, allowing the files in a given array
+ * to be displayed as a list.
+ */
 public class FileArrayAdapter extends ArrayAdapter<File> {
     private final Context context;
     private final File[] files;
 
+    /**
+     * Creates a new FileArrayAdapter
+     *
+     * @param context The current context
+     * @param files   The array of files to scan and return views for each element
+     */
     public FileArrayAdapter(Context context, File[] files) {
         super(context, -1, files);
         this.context = context;
         this.files = files;
     }
 
+    /**
+     * @return The array of files
+     */
     public File[] getFiles() {
         return files;
     }
 
-    @NonNull
+    /**
+     * Generates a View for the the file list item for the file at the given position.
+     * @param position The file position in the list/array.
+     * @param convertView The old view to reuse, if possible.
+     * @param parent The parent that this view will eventually be attached to.
+     * @return The list item View generated for the file at the given list/array position.
+     */
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View rowView = convertView;
@@ -81,6 +100,11 @@ public class FileArrayAdapter extends ArrayAdapter<File> {
         return convertView;
     }
 
+    /**
+     * A view holder for the each file list item. Holds the file icon, file name, and file
+     * information views found with the IDs file_icon, file_name, and file_info.
+     * The specific layout these views can be found in is file_browser_list_item.xml
+     */
     private class ListItemViewHolder {
         final ImageView fileIcon;
         final TextView fileName;
