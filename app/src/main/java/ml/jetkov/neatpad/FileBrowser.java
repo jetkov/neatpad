@@ -130,7 +130,6 @@ public class FileBrowser extends AppCompatActivity {
 
         final EditText input = new EditText(this);
         input.setSingleLine(true);
-        input.setPadding(10, 10, 10, 10);
         dialogBuilder.setView(input);
 
         dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
