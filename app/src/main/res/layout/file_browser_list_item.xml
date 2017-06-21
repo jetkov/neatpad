@@ -16,10 +16,9 @@
 -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
-    android:background="@color/colorPrimaryLighter"
+    android:background="@color/colorAccentLight"
     android:descendantFocusability="blocksDescendants"
     android:padding="6dip">
 
@@ -30,7 +29,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
         android:layout_marginEnd="6dip"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@drawable/ic_file" />
 
     <TextView
         android:id="@+id/file_name"
@@ -56,16 +55,5 @@
         android:maxLines="1"
         android:text="File Info"
         android:textSize="12sp" />
-
-    <ImageButton
-        android:id="@+id/file_info_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="6dip"
-        android:background="@android:color/transparent"
-        app:srcCompat="@android:drawable/ic_menu_info_details" />
 
 </RelativeLayout>

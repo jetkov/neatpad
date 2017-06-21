@@ -84,9 +84,9 @@ public class FileArrayAdapter extends ArrayAdapter<File> {
         if (itemViewHolder != null) {
 
             if (files[position].isFile()) {
-                itemViewHolder.fileIcon.setImageResource(R.mipmap.ic_launcher_round);
+                itemViewHolder.fileIcon.setImageResource(R.drawable.ic_file);
             } else {
-                itemViewHolder.fileIcon.setImageResource(R.mipmap.ic_launcher);
+                itemViewHolder.fileIcon.setImageResource(R.drawable.ic_folder);
             }
 
             itemViewHolder.fileName.setText(files[position].getName());
