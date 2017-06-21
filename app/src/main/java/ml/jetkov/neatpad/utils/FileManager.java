@@ -24,7 +24,6 @@ import android.content.res.AssetManager;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -45,8 +44,8 @@ import java.io.OutputStreamWriter;
 
 public class FileManager {
 
-    public static final String appFolderName = "NeatPad";
-    private static final String LOG_TAG = "File Manager";
+    private static final String appFolderName = "NeatPad";
+    //private static final String LOG_TAG = "File Manager";
 
     /**
      * @return True if 'external' storage is available for read and write.
@@ -56,7 +55,7 @@ public class FileManager {
         if (Environment.MEDIA_MOUNTED.equals(state)) {
             return true;
         }
-        Log.e("File Manager", "External Storage is not writable.");
+        //Log.e("File Manager", "External Storage is not writable.");
         return false;
     }
 
@@ -69,7 +68,7 @@ public class FileManager {
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
             return true;
         }
-        Log.e("File Manager", "External Storage is not readable.");
+        //Log.e("File Manager", "External Storage is not readable.");
         return false;
     }
 
@@ -82,7 +81,7 @@ public class FileManager {
         File file = Environment.getExternalStoragePublicDirectory(appFolderName);
 
         if (!isExternalStorageWritable() || !file.mkdirs()) {
-            Log.i(LOG_TAG, "Directory " + file.getName() + "not created");
+            //Log.i(LOG_TAG, "Directory " + file.getName() + "not created");
         }
 
         return file;
@@ -99,7 +98,7 @@ public class FileManager {
         File file = new File(getExternalAppDir(), dirName);
 
         if (!isExternalStorageWritable() || !file.mkdirs()) {
-            Log.i(LOG_TAG, "Directory " + file.getName() + "not created");
+            //Log.i(LOG_TAG, "Directory " + file.getName() + "not created");
         }
 
         return file;
@@ -117,16 +116,16 @@ public class FileManager {
         if (Build.VERSION.SDK_INT >= 23) {
             if (activity.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
-                Log.v(LOG_TAG, "External write permission is granted");
+                //Log.v(LOG_TAG, "External write permission is granted");
                 return true;
             } else {
 
-                Log.v(LOG_TAG, "External write permission is revoked");
+                //Log.v(LOG_TAG, "External write permission is revoked");
                 ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 return false;
             }
         } else { // permission is automatically granted on SDK < 23 upon installation
-            Log.v(LOG_TAG, "External write permission is granted");
+            //Log.v(LOG_TAG, "External write permission is granted");
             return true;
         }
     }
@@ -141,8 +140,9 @@ public class FileManager {
     public static boolean writeStringToFile(String string, File file) {
         try {
             if (file.delete())
-                Log.i(LOG_TAG, "File" + file.getName() + "exists. Deleted to overwrite.");
-            if (file.createNewFile()) Log.i(LOG_TAG, "New file" + file.getName() + " created.");
+                //Log.i(LOG_TAG, "File" + file.getName() + "exists. Deleted to overwrite.");
+                if (file.createNewFile())
+                    ; //Log.i(LOG_TAG, "New file" + file.getName() + " created.");
             FileOutputStream fOut = new FileOutputStream(file);
             OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
             myOutWriter.append(string);
@@ -153,7 +153,7 @@ public class FileManager {
             fOut.close();
             return true;
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Writing String to file failed: " + e.toString());
+            //Log.e(LOG_TAG, "Writing String to file failed: " + e.toString());
             return false;
         }
     }
@@ -177,7 +177,7 @@ public class FileManager {
             }
             bufferedReader.close();
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Reading String from file failed: " + e.getMessage());
+            //Log.e(LOG_TAG, "Reading String from file failed: " + e.getMessage());
             e.printStackTrace();
         }
 
@@ -199,7 +199,7 @@ public class FileManager {
             out = new FileOutputStream(target);
             copyFile(in, out);
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Failed to copy file " + src.getPath() + " to " + target.getPath());
+            //Log.e(LOG_TAG, "Failed to copy file " + src.getPath() + " to " + target.getPath());
             e.printStackTrace();
             return false;
         }
@@ -245,7 +245,7 @@ public class FileManager {
             out.close();
             return true;
         } catch (Exception e) {
-            Log.e(LOG_TAG, "Could not copy asset: " + e.getMessage());
+            //Log.e(LOG_TAG, "Could not copy asset: " + e.getMessage());
             e.printStackTrace();
             return false;
         }

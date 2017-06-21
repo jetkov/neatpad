@@ -25,7 +25,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,7 +42,7 @@ import ml.jetkov.neatpad.utils.FileArrayAdapter;
 import ml.jetkov.neatpad.utils.FileManager;
 
 public class FileBrowser extends AppCompatActivity {
-    private static final String LOG_TAG = "File Browser";
+    //private static final String LOG_TAG = "File Browser";
     private File currentDirectory = FileManager.getExternalAppDir("Text Files");
 
     private ListView fileList;
@@ -102,7 +101,7 @@ public class FileBrowser extends AppCompatActivity {
         if (!currentDirectory.equals(FileManager.getExternalAppDir())) {
             File relativeParent = currentDirectory.getParentFile();
             if (updateList(relativeParent.listFiles())) currentDirectory = relativeParent;
-            Log.e(LOG_TAG, currentDirectory.getAbsolutePath());
+            //Log.e(LOG_TAG, currentDirectory.getAbsolutePath());
         } else {
             super.onBackPressed();
         }
@@ -135,14 +134,14 @@ public class FileBrowser extends AppCompatActivity {
         dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int button) {
                 if (!Objects.equals(input.getText().toString(), "")) {
-                    File newFile = new File(parentDirectory, input.getText().toString());
+                    File newFile = new File(parentDirectory, input.getText().toString() + ".txt");
 
                     try {
                         if (!newFile.createNewFile()) {
                             newOverwriteFileDialog(newFile);
                         }
                     } catch (IOException e) {
-                        Log.e(LOG_TAG, "Could not create new file: " + e.getMessage());
+                        //Log.e(LOG_TAG, "Could not create new file: " + e.getMessage());
                         e.printStackTrace();
                     }
                 }
@@ -174,7 +173,7 @@ public class FileBrowser extends AppCompatActivity {
                 try {
                     fileToOverwrite.createNewFile();
                 } catch (IOException e) {
-                    Log.e(LOG_TAG, "Could not create new file: " + e.getMessage());
+                    //Log.e(LOG_TAG, "Could not create new file: " + e.getMessage());
                     e.printStackTrace();
                 }
             }
