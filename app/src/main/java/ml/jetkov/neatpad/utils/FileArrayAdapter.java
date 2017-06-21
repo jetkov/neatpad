@@ -59,17 +59,19 @@ public class FileArrayAdapter extends ArrayAdapter<File> {
 
     /**
      * Generates a View for the the file list item for the file at the given position.
-     * @param position The file position in the list/array.
+     *
+     * @param position    The file position in the list/array.
      * @param convertView The old view to reuse, if possible.
-     * @param parent The parent that this view will eventually be attached to.
+     * @param parent      The parent that this view will eventually be attached to.
      * @return The list item View generated for the file at the given list/array position.
      */
+    @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View rowView = convertView;
         ListItemViewHolder itemViewHolder = null;
 
-        if (convertView == null) {
+        if (convertView == null || !(convertView.getTag() instanceof ListItemViewHolder)) {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -77,27 +79,22 @@ public class FileArrayAdapter extends ArrayAdapter<File> {
             itemViewHolder = new ListItemViewHolder(rowView);
 
             rowView.setTag(rowView);
-        } else if (convertView.getTag() instanceof ListItemViewHolder) {
+        } else {
             itemViewHolder = (ListItemViewHolder) convertView.getTag();
         }
 
-        if (itemViewHolder != null) {
-
-            if (files[position].isFile()) {
-                itemViewHolder.fileIcon.setImageResource(R.drawable.ic_file);
-            } else {
-                itemViewHolder.fileIcon.setImageResource(R.drawable.ic_folder);
-            }
-
-            itemViewHolder.fileName.setText(files[position].getName());
-
-            String items = String.valueOf(files[position].listFiles() != null ? files[position].listFiles().length + " files" : "File");
-            itemViewHolder.fileInfo.setText(items);
-
-            return rowView;
+        if (files[position].isFile()) {
+            itemViewHolder.fileIcon.setImageResource(R.drawable.ic_file);
+        } else {
+            itemViewHolder.fileIcon.setImageResource(R.drawable.ic_folder);
         }
 
-        return convertView;
+        itemViewHolder.fileName.setText(files[position].getName());
+
+        String items = String.valueOf(files[position].listFiles() != null ? files[position].listFiles().length + " files" : "File");
+        itemViewHolder.fileInfo.setText(items);
+
+        return rowView;
     }
 
     /**
