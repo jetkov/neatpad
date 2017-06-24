@@ -31,7 +31,7 @@ import android.widget.EditText;
 import java.io.File;
 
 import ml.jetkov.neatpad.utils.FileManager;
-import ml.jetkov.neatpad.utils.ParsingUtils;
+import ml.jetkov.neatpad.utils.RenderingUtils;
 
 public class FileInterface extends AppCompatActivity implements TextEditor.OnFragmentInteractionListener, HTMLViewer.OnFragmentInteractionListener {
 
@@ -79,8 +79,14 @@ public class FileInterface extends AppCompatActivity implements TextEditor.OnFra
             updateElements();
         } else if (htmlViewer == null) {
             File htmlFile = new File(FileManager.getExternalAppDir("HTML Files"), textFile.getName().replace(".txt", "") + ".html");
-            FileManager.writeStringToFile(textEditor.getText().toString(), textFile);
-            ParsingUtils.markdownToHTML(textFile, htmlFile);
+            String textInEditor = textEditor.getText().toString();
+            String html;
+
+            FileManager.writeStringToFile(textInEditor, textFile);
+            html = RenderingUtils.markdownToHTML(textInEditor);
+            html = RenderingUtils.injectMathJaxScripts(html);
+            FileManager.writeStringToFile(html, htmlFile);
+
             fragTransaction.replace(R.id.frag_container, htmlViewerFrag).commit();
             updateElements();
             htmlViewer.loadUrl("file://" + htmlFile.getAbsolutePath());
