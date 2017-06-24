@@ -108,8 +108,8 @@ public class FileBrowser extends AppCompatActivity {
     }
 
     private void generateDefaultHierarchy() {
-        File dest = new File(FileManager.getExternalAppDir("Text Files"), "CommonmarkSpec.txt");
-        FileManager.copyAsset(getAssets(), "samples/CommonmarkSpec.txt", dest);
+        FileManager.copyAsset(getAssets(), "samples/CommonmarkSpec.md", new File(FileManager.getExternalAppDir("Text Files"), "CommonmarkSpec.md"));
+        FileManager.copyAsset(getAssets(), "samples/MathJaxExamples.md", new File(FileManager.getExternalAppDir("Text Files"), "MathJaxExamples.md"));
     }
 
     private boolean updateList(File[] files) {
