@@ -32,7 +32,7 @@ import static ml.jetkov.neatpad.utils.FileManager.writeStringToFile;
  * Created by jetkov (Alex Petkovic) on 2017-06-06.
  */
 
-public class ParsingUtils {
+public class RenderingUtils {
 
     /**
      * Parses a file containing Markdown and renders it to HTML. Saves the HTML to a specified
@@ -43,9 +43,47 @@ public class ParsingUtils {
      * @see org.commonmark
      */
     public static void markdownToHTML(File textFile, File htmlFile) {
-        Parser parser = Parser.builder().build();
-        Node document = parser.parse(readStringFromTextFile(textFile));
-        HtmlRenderer renderer = HtmlRenderer.builder().build();
-        writeStringToFile(renderer.render(document), htmlFile);
+        writeStringToFile(markdownToHTML(readStringFromTextFile(textFile)), htmlFile);
     }
+
+    /**
+     * Parses a file containing Markdown and renders it to HTML.
+     *
+     * @param markdown A String containing Markdown language
+     * @see org.commonmark
+     */
+    public static String markdownToHTML(String markdown) {
+        Parser parser = Parser.builder().build();
+        Node document = parser.parse(markdown);
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        return renderer.render(document);
+    }
+
+    /**
+     * Injects the necessary HTML tags to include the MathJax configuration and javascript into
+     * a given String.
+     *
+     * @param string The HTML string to prepend
+     * @return The newly rendered HTML String with injected scripts.
+     */
+    public static String injectMathJaxScripts(String string) {
+        String injection = "<script type='text/x-mathjax-config'>\n" +
+                "   MathJax.Hub.Config({\n" +
+                "       extensions: ['tex2jax.js'],\n" +
+                "       jax: ['input/TeX','output/HTML-CSS'],\n" +
+                "       tex2jax: {inlineMath: [['$$$','$$$'],['\\\\(','\\\\)']]}\n" +
+                "   });\n" +
+                "   MathJax.Hub.Queue(function () {\n" +
+                "       document.getElementById(\"hide_page\").style.visibility = \"\";\n" +
+                "   });" +
+                "\n" +
+                "</script><script type='text/javascript' src='file:///android_asset/mathjax/MathJax.js?config=TeX-AMS_HTML-full'></script> \n";
+
+        StringBuilder builder = new StringBuilder(string);
+        builder.insert(0, injection);
+
+        return builder.toString();
+
+    }
+
 }

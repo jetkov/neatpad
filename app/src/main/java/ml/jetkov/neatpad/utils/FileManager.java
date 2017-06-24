@@ -224,7 +224,7 @@ public class FileManager {
     /**
      * Copies an asset from the app's internal 'assets' directory to a specified destination.
      * @param assetManager The application's AssetManager.
-     * @param fromAssetPath The path of the asset to copy (ex. "samples/CommonmarkSpec.txt").
+     * @param fromAssetPath The path of the asset to copy (ex. "samples/CommonmarkSpec.md").
      * @param destination The destination for the asset, specified by the File object.
      * @return True if the asset was successfully copied.
      */
