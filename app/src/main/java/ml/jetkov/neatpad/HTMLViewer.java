@@ -17,6 +17,7 @@
 
 package ml.jetkov.neatpad;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -78,23 +79,18 @@ public class HTMLViewer extends Fragment {
         }
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.html_viewer_fragment, container, false);
 
-        File commonmarkSpec = new File(FileManager.getExternalAppDir("Text Files"), "CommonmarkSpec.txt");
+        File commonmarkSpec = new File(FileManager.getExternalAppDir("Text Files"), "CommonmarkSpec.md");
 
         WebView webView = (WebView) rootView.findViewById(R.id.html_viewer);
+        webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl("file:///" + commonmarkSpec.getPath());
-
-//        webView.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                return (event.getAction() == MotionEvent.ACTION_MOVE);
-//            }
-//        });
 
         return rootView;
     }
